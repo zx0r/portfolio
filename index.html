@@ -2,72 +2,492 @@
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta
       name="description"
       content="x0r — researcher portfolio: AI pipelines, prompt engineering, data tools."
     />
     <meta property="og:title" content="x0r.store – AI Research Portfolio" />
     <meta property="og:image" content="/src/assets/images/preview.png" />
+    <!-- Make sure this path is correct -->
     <meta
       property="og:description"
       content="Prompt engineering, LLM automation, and research tools by x0r."
     />
-    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="theme-color" content="#1c1c1e" />
+    <!-- Dark theme color -->
     <title>x0r.store — Research Portfolio</title>
-    <link rel="stylesheet" href="/src/styles/main.css" />
+    <!-- <link rel="stylesheet" href="/src/styles/main.css" /> -->
     <link rel="icon" href="/src/assets/images/favicon.ico" />
+    <!-- Make sure this path is correct -->
+    <style>
+      /* Inspired by iOS Design System - (Simplified for brevity) */
+      :root {
+        --font-family-system: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+
+        --text-primary-light: #1d1d1f;
+        --text-secondary-light: #6e6e73;
+        --text-tertiary-light: #8e8e93;
+        --bg-primary-light: #f9f9f9; /* Slightly off-white */
+        --bg-secondary-light: #ffffff;
+        --bg-tertiary-light: #f2f2f7;
+        --fill-quaternary-light: rgba(
+          120,
+          120,
+          128,
+          0.12
+        ); /* For subtle backgrounds/hovers */
+        --separator-light: rgba(60, 60, 67, 0.29);
+        --blue-accent-light: #007aff;
+
+        --text-primary-dark: #ffffff;
+        --text-secondary-dark: #aeaeb2; /* Lighter secondary for dark */
+        --text-tertiary-dark: #8d8d93;
+        --bg-primary-dark: #0d0d0d; /* Near black */
+        --bg-secondary-dark: #1c1c1e; /* iOS dark grey */
+        --bg-tertiary-dark: #2c2c2e;
+        --fill-quaternary-dark: rgba(120, 120, 128, 0.24);
+        --separator-dark: rgba(88, 88, 93, 0.4);
+        --blue-accent-dark: #0a84ff;
+
+        --border-radius: 12px;
+        --card-padding: 1.25rem;
+        --section-padding: 2.5rem 1.5rem;
+        --header-height: 60px;
+      }
+
+      /* Global Styles */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+      body {
+        font-family: var(--font-family-system);
+        background-color: var(--bg-primary-light);
+        color: var(--text-primary-light);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+        padding-top: var(--header-height); /* Account for fixed header */
+      }
+
+      html[data-theme="dark"] body {
+        background-color: var(--bg-primary-dark);
+        color: var(--text-primary-dark);
+      }
+      html[data-theme="dark"] {
+        --text-primary: var(--text-primary-dark);
+        --text-secondary: var(--text-secondary-dark);
+        --text-tertiary: var(--text-tertiary-dark);
+        --bg-primary: var(--bg-primary-dark);
+        --bg-secondary: var(--bg-secondary-dark);
+        --bg-tertiary: var(--bg-tertiary-dark);
+        --fill-quaternary: var(--fill-quaternary-dark);
+        --separator-color: var(--separator-dark);
+        --accent-color: var(--blue-accent-dark);
+      }
+      html[data-theme="light"] {
+        /* Explicitly set light theme vars */
+        --text-primary: var(--text-primary-light);
+        --text-secondary: var(--text-secondary-light);
+        --text-tertiary: var(--text-tertiary-light);
+        --bg-primary: var(--bg-primary-light);
+        --bg-secondary: var(--bg-secondary-light);
+        --bg-tertiary: var(--bg-tertiary-light);
+        --fill-quaternary: var(--fill-quaternary-light);
+        --separator-color: var(--separator-light);
+        --accent-color: var(--blue-accent-light);
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      h1 {
+        font-size: 2.25rem; /* 36px */
+        line-height: 1.2;
+        margin-bottom: 0.25rem;
+      }
+      h1 .dot {
+        color: var(--accent-color);
+      }
+      h2 {
+        font-size: 1.75rem; /* 28px */
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--separator-color);
+      }
+      h3 {
+        font-size: 1.125rem; /* 18px */
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+      p {
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+      }
+      a {
+        color: var(--accent-color);
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+      a:hover {
+        opacity: 0.75;
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--header-height);
+        padding: 0 1.5rem;
+        background-color: var(
+          --bg-secondary
+        ); /* Changed to secondary for slight diff */
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border-bottom: 1px solid var(--separator-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 100;
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease;
+      }
+      header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        font-weight: 700;
+      }
+      header p.tagline {
+        /* Added a class for the tagline */
+        display: none; /* Hide tagline in header for simplicity, or style it if needed */
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+        margin-left: 1rem;
+      }
+      header nav {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      header nav a {
+        font-size: 0.9375rem; /* 15px */
+        font-weight: 500;
+        color: var(--accent-color);
+      }
+      #theme-toggle {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+        padding: 0.25rem;
+        line-height: 1;
+        transition:
+          color 0.3s ease,
+          transform 0.2s ease;
+      }
+      #theme-toggle:hover {
+        transform: scale(1.1);
+        color: var(--text-primary);
+      }
+
+      /* Main Content */
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--section-padding);
+      }
+      section {
+        margin-bottom: 3rem;
+      }
+
+      /* Intro Section - iOS List Style */
+      .info-list {
+        list-style: none;
+        padding: 0;
+      }
+      .info-list-item {
+        background-color: var(--bg-secondary);
+        padding: 0.85rem var(--card-padding);
+        border-bottom: 1px solid var(--separator-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .info-list-item:first-child {
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+      }
+      .info-list-item:last-child {
+        border-bottom: none;
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+      }
+
+      .info-label {
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: 0.9375rem;
+      }
+      .info-label .icon {
+        margin-right: 0.6rem;
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+      .info-value {
+        font-size: 0.9375rem;
+        color: var(--text-secondary);
+        text-align: right;
+        font-family: "SF Mono", "Menlo", "Monaco", monospace; /* Monospace for values like code/tools */
+      }
+
+      /* Projects Section - Cards */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      .card {
+        background-color: var(--bg-secondary);
+        border-radius: var(--border-radius);
+        padding: var(--card-padding);
+        text-decoration: none;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.3s ease;
+        border: 1px solid transparent; /* For hover effect */
+      }
+      html[data-theme="dark"] .card {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        border-color: var(--separator-color);
+      }
+      html[data-theme="dark"] .card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      }
+      .card h3 {
+        margin-top: 0;
+      }
+      .card p {
+        font-size: 0.9375rem;
+        color: var(--text-secondary);
+        margin-bottom: 0;
+      }
+
+      /* Contact & Footer */
+      #contact p {
+        font-size: 1rem;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem 1.5rem;
+        color: var(--text-tertiary);
+        font-size: 0.875rem;
+        border-top: 1px solid var(--separator-color);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          padding-top: calc(
+            var(--header-height) + 1rem
+          ); /* More space for header content potentially wrapping */
+        }
+        header {
+          flex-direction: column;
+          height: auto;
+          padding: 0.75rem 1rem;
+          align-items: flex-start;
+        }
+        header h1 {
+          font-size: 1.25rem;
+        }
+        header nav {
+          width: 100%;
+          justify-content: space-between;
+          margin-top: 0.5rem;
+          gap: 0.5rem;
+        }
+        header nav a {
+          font-size: 0.875rem;
+        }
+        #theme-toggle {
+          font-size: 1.1rem;
+        }
+        h1 {
+          font-size: 1.875rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        .info-list-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.3rem;
+        }
+        .info-value {
+          text-align: left;
+        }
+      }
+      @media (max-width: 480px) {
+        .cards {
+          grid-template-columns: 1fr;
+        } /* Single column on very small screens */
+      }
+    </style>
   </head>
 
   <body>
     <header>
-      <h1>x0r<span class="dot">.store</span></h1>
-      <p>Research & Automation in AI, Prompt Engineering, and Tooling</p>
+      <h1>x0r<span class="dot">.</span>store</h1>
+      <!-- Tagline moved to main intro or removed from header for cleaner iOS look -->
       <nav>
-        <a href="#projects">Projects</a>
-        <a href="/resume.pdf" target="_blank">Resume</a>
-        <a href="https://github.com/x0r" target="_blank">GitHub</a>
-        <button id="theme-toggle" title="Toggle theme">🌓</button>
+        <div>
+          <!-- Group for left-aligned nav items -->
+          <a href="#projects">Projects</a>
+          <a href="/resume.pdf" target="_blank">Resume</a>
+          <a href="https://github.com/x0r" target="_blank">GitHub</a>
+        </div>
+        <button
+          id="theme-toggle"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+        >
+          🌓
+        </button>
       </nav>
     </header>
 
     <main>
       <section id="intro">
-        <h2>👨‍💻 About Me</h2>
-        <pre class="stack">
-⊙ Role:     [ Researcher ]
-⊙ Core:     [ Shell, Python, SQL ]
-⊙ OS:       [ macOS, Linux, OpenWRT, Windows ]
-⊙ Spec:     [ few-shot, CoT, RAG, agent prompting ]
-⊙ Tools:    [ Pandas, Docker, Git, APIs, LangChain, Jupyter ]
-⊙ Output:   [ Secure, Intelligent pipelines for real-world AI ]
-⊙ Mission:  [ Automate workflows, Embed LLMs in scalable systems ]
-⊙ Domains:  [ Prompt Engineering, LLM Automation, Data Scraping, CLI Tooling ]
-      </pre
+        <!-- Removed h2, section title implied by content or can be a subtle "About" above the list -->
+        <p
+          style="
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+          "
         >
+          Researcher & Automation Specialist
+        </p>
+        <p
+          style="
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+          "
+        >
+          Focusing on AI pipelines, prompt engineering, LLM automation, and the
+          development of research-driven data tools.
+        </p>
+
+        <ul class="info-list">
+          <li class="info-list-item">
+            <span class="info-label"><span class="icon">👤</span>Role</span>
+            <span class="info-value">Researcher</span>
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"
+              ><span class="icon">🛠️</span>Core Stack</span
+            >
+            <span class="info-value">Shell, Python, SQL</span>
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"
+              ><span class="icon">💻</span>OS Expertise</span
+            >
+            <span class="info-value">macOS, Linux, OpenWRT, Windows</span>
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"
+              ><span class="icon">🎯</span>Specialization</span
+            >
+            <span class="info-value">Few-shot, CoT, RAG, Agent Prompting</span>
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"
+              ><span class="icon">🔧</span>Key Tools</span
+            >
+            <span class="info-value"
+              >Pandas, Docker, Git, APIs, LangChain, Jupyter</span
+            >
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"
+              ><span class="icon">💡</span>Output Focus</span
+            >
+            <span class="info-value">Secure, Intelligent AI Pipelines</span>
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"><span class="icon">🚀</span>Mission</span>
+            <span class="info-value"
+              >Automate Workflows, Embed LLMs Scalably</span
+            >
+          </li>
+          <li class="info-list-item">
+            <span class="info-label"><span class="icon">🌐</span>Domains</span>
+            <span class="info-value"
+              >Prompt Engineering, LLM Automation, Data Scraping, CLI
+              Tooling</span
+            >
+          </li>
+        </ul>
       </section>
 
       <section id="projects">
         <h2>🚀 Projects</h2>
         <div class="cards">
           <a class="card" href="/projects/dataflow.html">
-            <h3>Dataflow</h3>
-            <p>Semantic pipelines for structured scraping + RAG</p>
+            <!-- Ensure these paths are correct -->
+            <h3>Dataflow Engine</h3>
+            <p>Semantic pipelines for structured scraping + RAG.</p>
           </a>
           <a class="card" href="/projects/openwrt.html">
-            <h3>OpenWRT Scanner</h3>
-            <p>Lightweight device scanner for OpenWRT setups</p>
+            <h3>OpenWRT Network Scanner</h3>
+            <p>Lightweight device discovery for OpenWRT systems.</p>
           </a>
           <a class="card" href="/projects/promtshub.html">
-            <h3>Promptshub</h3>
-            <p>CLI framework for composable prompt pipelines</p>
+            <h3>PromptOps Hub</h3>
+            <p>CLI framework for composable prompt engineering.</p>
           </a>
         </div>
       </section>
 
       <section id="contact">
-        <h2>📫 Contact</h2>
+        <h2>📫 Get in Touch</h2>
         <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
+        <!-- Update Email -->
         <p>
           GitHub:
           <a href="https://github.com/x0r" target="_blank">github.com/x0r</a>
@@ -76,9 +496,37 @@
     </main>
 
     <footer>
-      <p>© 2025 x0r — Built with ❤ and shell scripts.</p>
+      <p>
+        © <span id="currentYear">2025</span> x0r.store — Crafted with
+        precision.
+      </p>
     </footer>
 
-    <script src="/src/scripts/main.js"></script>
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      const currentTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+
+      document.documentElement.setAttribute("data-theme", currentTheme);
+      themeToggle.textContent = currentTheme === "dark" ? "☀️" : "🌓";
+
+      themeToggle.addEventListener("click", () => {
+        let newTheme =
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "light"
+            : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌓";
+      });
+
+      // Dynamic Year for Footer
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+    </script>
   </body>
 </html>
